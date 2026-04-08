@@ -24,7 +24,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2. 安装 Elan 和 Lean 工具链（必须！）
+      # ========== 关键修复：安装系统级依赖（解决 pygraphviz 编译失败） ==========
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          # 安装 Graphviz 库和开发文件（pygraphviz 编译需要）
+          sudo apt-get install -y graphviz libgraphviz-dev
+          # 安装基本的编译工具
+          sudo apt-get install -y build-essential
+
+      # 2. 安装 Elan 和 Lean 工具链
       - name: Install Elan & Lean
         run: |
           curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y
@@ -37,7 +46,7 @@ jobs:
           lean --version
           lake --version
 
-      # 3. 拉取 mathlib 依赖（必须！）
+      # 3. 拉取 mathlib 依赖
       - name: Fetch mathlib
         run: |
           lake update
@@ -57,11 +66,11 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y texlive-full
 
-      # 6. 构建 Lean 项目（让 leanblueprint 能找到编译后的 .olean 文件）
+      # 6. 构建 Lean 项目
       - name: Build Lean project
         run: lake build
 
-      # 7. 关键：用 leanblueprint 命令构建蓝图
+      # 7. 用 leanblueprint 命令构建蓝图
       - name: Build blueprint
         run: |
           cd blueprint
