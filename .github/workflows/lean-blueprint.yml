@@ -1,0 +1,54 @@
+name: Deploy Lean Blueprint
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: true  # 如果你的项目有 mathlib 等子模块，需要这一行
+
+      - name: Install Elan
+        run: |
+          curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y
+          echo "$HOME/.elan/bin" >> $GITHUB_PATH
+
+      - name: Setup Lean
+        run: |
+          # 直接读取本地的 lean-toolchain 文件，解决之前的找不到问题
+          elan install $(cat lean-toolchain)
+          elan default $(cat lean-toolchain)
+          lean --version
+          lake --version
+
+      - name: Install dependencies
+        run: lake exe cache get && lake build
+
+      - name: Build blueprint
+        run: lake build blueprint
+
+      - name: Prepare pages
+        run: |
+          mkdir -p ./_site
+          cp -r ./build/doc/* ./_site/
+
+      - name: Deploy
+        uses: actions/deploy-pages@v4
