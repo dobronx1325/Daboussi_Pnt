@@ -4,7 +4,6 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
-# 必须的权限配置
 permissions:
   contents: read
   pages: write
@@ -21,66 +20,64 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      # 1. 拉取代码（递归拉取所有子模块，包括 mathlib）
+      # 1. 拉取代码
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          submodules: recursive
-          fetch-depth: 0
 
-      # 2. 安装 Elan（关键修复：把路径同时加到当前 shell 和 GITHUB_PATH）
-      - name: Install Elan
+      # 2. 安装 Elan 和 Lean 工具链（必须！）
+      - name: Install Elan & Lean
         run: |
-          # 安装 Elan
           curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y
-          # 把 Elan 路径加到当前 shell 的 PATH（立即生效）
           export PATH="$HOME/.elan/bin:$PATH"
-          # 同时加到 GITHUB_PATH（给后续步骤用）
           echo "$HOME/.elan/bin" >> $GITHUB_PATH
-          # 验证安装（当前 shell 就能找到 elan 了）
-          elan --version
-
-      # 3. 配置 Lean 工具链（从项目的 lean-toolchain 读取）
-      - name: Setup Lean toolchain
-        run: |
-          # 读取版本号
+          # 安装项目指定的 Lean 版本
           LEAN_VERSION=$(cat lean-toolchain)
-          echo "Lean 版本：$LEAN_VERSION"
-          # 安装并设为默认
           elan install $LEAN_VERSION
           elan default $LEAN_VERSION
-          # 验证工具链
           lean --version
           lake --version
 
-      # 4. 拉取所有依赖（解决 mathlib 找不到的问题）
-      - name: Update lake dependencies
-        run: lake update
-
-      # 5. 拉取 mathlib 预编译缓存（避免重新编译，节省大量时间）
-      - name: Get mathlib cache
-        run: lake exe cache get
-
-      # 6. 构建项目 + 蓝图文档
-      - name: Build project and blueprint
+      # 3. 拉取 mathlib 依赖（必须！）
+      - name: Fetch mathlib
         run: |
-          lake build
-          lake build blueprint
+          lake update
+          lake exe cache get
 
-      # 7. 准备 Pages 部署文件
+      # 4. 安装 Python 和 leanblueprint 命令行工具
+      - name: Set up Python & leanblueprint
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install leanblueprint
+        run: pip install leanblueprint
+
+      # 5. 安装 LaTeX（生成 PDF 需要）
+      - name: Install LaTeX
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y texlive-full
+
+      # 6. 构建 Lean 项目（让 leanblueprint 能找到编译后的 .olean 文件）
+      - name: Build Lean project
+        run: lake build
+
+      # 7. 关键：用 leanblueprint 命令构建蓝图
+      - name: Build blueprint
+        run: |
+          cd blueprint
+          leanblueprint build
+
+      # 8. 准备 Pages 部署文件
       - name: Prepare pages artifact
         run: |
           mkdir -p _site
-          # 把蓝图生成的文档复制到 _site（Pages 从这里部署）
-          cp -r ./build/doc/* ./_site/
+          cp -r ./blueprint/web/* ./_site/
 
-      # 8. 上传部署产物
+      # 9. 上传并部署
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./_site
-
-      # 9. 部署到 GitHub Pages
       - name: Deploy to Pages
         id: deployment
         uses: actions/deploy-pages@v4
