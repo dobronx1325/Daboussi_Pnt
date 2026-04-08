@@ -1,13 +1,11 @@
-# 专为 Lean4 素数定理形式化证明 配置的 GitHub Pages 部署脚本
 name: Deploy Lean4 Docs to Pages
 
-# 代码推送到 main 分支时自动部署
 on:
   push:
     branches: [ main ]
   workflow_dispatch:
 
-# 权限配置（必须加，否则部署失败）
+# 权限配置（必须保留）
 permissions:
   contents: read
   pages: write
@@ -26,21 +24,23 @@ jobs:
     steps:
       - name: Checkout 代码
         uses: actions/checkout@v4
-        
-      - name: 安装 Lean4 环境
+
+      - name: 安装并配置 Lean4 环境（修复版）
         uses: leanprover/lean-action@v1
         with:
-          auto-install-elan: true
-          
-      - name: 构建 Lean4 文档（生成静态网页）
+          # 去掉了无效的 auto-install-elan，改用 Action 支持的参数
+          auto-config: true          # 自动读取 lean-toolchain 配置工具链
+          use-mathlib-cache: true   # 缓存 mathlib 依赖，大幅加快构建速度
+          use-github-cache: true    # 缓存构建产物，避免重复编译
+
+      - name: 构建 Lean4 文档
         run: lake build docs
-        
+
       - name: 上传构建产物
         uses: actions/upload-pages-artifact@v3
         with:
-          # Lean4 默认生成的文档路径（99% 的项目都是这个）
           path: ./build/doc
-        
+
       - name: 部署到 GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
