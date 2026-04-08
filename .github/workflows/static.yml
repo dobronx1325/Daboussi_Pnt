@@ -5,7 +5,6 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
-# 权限配置（必须保留）
 permissions:
   contents: read
   pages: write
@@ -22,25 +21,38 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout 代码
+      # 1. 拉取代码
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: 安装并配置 Lean4 环境（修复版）
-        uses: leanprover/lean-action@v1
-        with:
-          # 去掉了无效的 auto-install-elan，改用 Action 支持的参数
-          auto-config: true          # 自动读取 lean-toolchain 配置工具链
-          use-mathlib-cache: true   # 缓存 mathlib 依赖，大幅加快构建速度
-          use-github-cache: true    # 缓存构建产物，避免重复编译
+      # 2. 手动安装 Elan（不依赖 lean-action）
+      - name: Install Elan manually
+        run: |
+          curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y
+          echo "$HOME/.elan/bin" >> $GITHUB_PATH
 
-      - name: 构建 Lean4 文档
+      # 3. 配置 Lean 工具链（关键步骤，解决 no default toolchain 错误）
+      - name: Set up Lean toolchain
+        run: |
+          # 安装项目指定的工具链（从 lean-toolchain 文件读取）
+          elan install $(cat lean-toolchain)
+          # 设置为默认工具链
+          elan default $(cat lean-toolchain)
+          # 验证安装成功
+          lean --version
+          lake --version
+
+      # 4. 构建 Lean4 文档
+      - name: Build Lean docs
         run: lake build docs
 
-      - name: 上传构建产物
+      # 5. 上传构建产物
+      - name: Upload docs artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./build/doc
 
-      - name: 部署到 GitHub Pages
+      # 6. 部署到 GitHub Pages
+      - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
