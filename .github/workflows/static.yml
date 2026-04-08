@@ -42,14 +42,14 @@ jobs:
           lean --version
           lake --version
 
-      # 4. 拉取mathlib依赖并构建项目
+      # 4. 拉取mathlib依赖并构建Lean项目
       - name: Build Lean project
         run: |
           lake update
           lake exe cache get
           lake build
 
-      # 5. 安装Python和leanblueprint
+      # 5. 安装Python和leanblueprint命令行工具
       - name: Set up Python & leanblueprint
         uses: actions/setup-python@v5
         with:
@@ -66,17 +66,19 @@ jobs:
       # ========== 关键修复：正确的蓝图构建命令 ==========
       - name: Build blueprint
         run: |
-          # 直接在项目根目录运行leanblueprint，不需要cd，不需要加build！
-          leanblueprint
+          # 官方标准命令：all 会生成网页+PDF，同时检查你的Lean声明
+          leanblueprint all
+          # 如果你只需要网页，不需要PDF，用下面这行更快：
+          # leanblueprint web
 
       # 7. 准备Pages部署文件
       - name: Prepare pages artifact
         run: |
           mkdir -p _site
-          # 蓝图生成的网页在 blueprint/web 文件夹里
+          # 蓝图生成的网页固定在 blueprint/web 文件夹里
           cp -r ./blueprint/web/* ./_site/
 
-      # 8. 上传并部署
+      # 8. 上传并部署到GitHub Pages
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
