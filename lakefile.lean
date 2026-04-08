@@ -8,7 +8,8 @@ package daboussi_pnt where
     ⟨`pp.unicode.fun, true⟩
   ]
 
-require mathlib from "mathlib4-4.29.0"
+require mathlib from git
+    "https://github.com/leanprover-community/mathlib4.git" @ "v4.29.0"
 lean_lib «Daboussi_pnt» where
   srcDir := "."
 @[default_target]
