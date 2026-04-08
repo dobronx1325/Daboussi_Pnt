@@ -4,6 +4,7 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
+
 # 必须的权限配置
 permissions:
   contents: read
