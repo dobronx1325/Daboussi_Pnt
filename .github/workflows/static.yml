@@ -1,0 +1,58 @@
+name: Deploy Lean4 Docs to Pages
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      # 1. 拉取代码
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. 手动安装 Elan（不依赖 lean-action）
+      - name: Install Elan manually
+        run: |
+          curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y
+          echo "$HOME/.elan/bin" >> $GITHUB_PATH
+
+      # 3. 配置 Lean 工具链（关键步骤，解决 no default toolchain 错误）
+      - name: Set up Lean toolchain
+        run: |
+          # 安装项目指定的工具链（从 lean-toolchain 文件读取）
+          elan install $(cat lean-toolchain)
+          # 设置为默认工具链
+          elan default $(cat lean-toolchain)
+          # 验证安装成功
+          lean --version
+          lake --version
+
+      # 4. 构建 Lean4 文档
+      - name: Build Lean docs
+        run: lake build docs
+
+      # 5. 上传构建产物
+      - name: Upload docs artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./build/doc
+
+      # 6. 部署到 GitHub Pages
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
