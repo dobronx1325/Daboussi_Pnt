@@ -4,7 +4,6 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
-
 # 必须的权限配置
 permissions:
   contents: read
@@ -16,57 +15,72 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build-and-deploy:
+  deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      # 1. 拉取代码 + 子模块（关键！mathlib 通常是子模块）
+      # 1. 拉取代码（递归拉取所有子模块，包括 mathlib）
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          submodules: recursive # 递归拉取所有子模块，包括 mathlib
+          submodules: recursive
           fetch-depth: 0
 
-      # 2. 安装 Elan 和 Lean 工具链
-      - name: Install Elan & Lean
+      # 2. 安装 Elan（关键修复：把路径同时加到当前 shell 和 GITHUB_PATH）
+      - name: Install Elan
         run: |
           # 安装 Elan
-          curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y
+          curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y
+          # 把 Elan 路径加到当前 shell 的 PATH（立即生效）
+          export PATH="$HOME/.elan/bin:$PATH"
+          # 同时加到 GITHUB_PATH（给后续步骤用）
           echo "$HOME/.elan/bin" >> $GITHUB_PATH
-          # 从 lean-toolchain 读取版本，安装并设为默认
+          # 验证安装（当前 shell 就能找到 elan 了）
+          elan --version
+
+      # 3. 配置 Lean 工具链（从项目的 lean-toolchain 读取）
+      - name: Setup Lean toolchain
+        run: |
+          # 读取版本号
           LEAN_VERSION=$(cat lean-toolchain)
+          echo "Lean 版本：$LEAN_VERSION"
+          # 安装并设为默认
           elan install $LEAN_VERSION
           elan default $LEAN_VERSION
-          # 验证安装
+          # 验证工具链
           lean --version
           lake --version
 
-      # 3. 拉取 mathlib 缓存（关键！避免重新编译整个 mathlib，节省几十分钟）
+      # 4. 拉取所有依赖（解决 mathlib 找不到的问题）
+      - name: Update lake dependencies
+        run: lake update
+
+      # 5. 拉取 mathlib 预编译缓存（避免重新编译，节省大量时间）
       - name: Get mathlib cache
         run: lake exe cache get
 
-      # 4. 构建项目 + 蓝图文档
-      - name: Build project & blueprint
+      # 6. 构建项目 + 蓝图文档
+      - name: Build project and blueprint
         run: |
           lake build
           lake build blueprint
 
-      # 5. 准备部署到 Pages 的文件
+      # 7. 准备 Pages 部署文件
       - name: Prepare pages artifact
         run: |
           mkdir -p _site
-          # 把蓝图生成的文档复制到 _site 文件夹（Pages 会从这里部署）
+          # 把蓝图生成的文档复制到 _site（Pages 从这里部署）
           cp -r ./build/doc/* ./_site/
 
-      # 6. 上传部署产物
+      # 8. 上传部署产物
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./_site
 
-      # 7. 部署到 GitHub Pages
+      # 9. 部署到 GitHub Pages
       - name: Deploy to Pages
         id: deployment
         uses: actions/deploy-pages@v4
