@@ -24,35 +24,32 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # ========== 关键修复：安装系统级依赖（解决 pygraphviz 编译失败） ==========
+      # 2. 安装系统级依赖（解决pygraphviz编译失败）
       - name: Install system dependencies
         run: |
           sudo apt-get update
-          # 安装 Graphviz 库和开发文件（pygraphviz 编译需要）
-          sudo apt-get install -y graphviz libgraphviz-dev
-          # 安装基本的编译工具
-          sudo apt-get install -y build-essential
+          sudo apt-get install -y graphviz libgraphviz-dev build-essential
 
-      # 2. 安装 Elan 和 Lean 工具链
+      # 3. 安装Elan和Lean工具链
       - name: Install Elan & Lean
         run: |
           curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y
           export PATH="$HOME/.elan/bin:$PATH"
           echo "$HOME/.elan/bin" >> $GITHUB_PATH
-          # 安装项目指定的 Lean 版本
           LEAN_VERSION=$(cat lean-toolchain)
           elan install $LEAN_VERSION
           elan default $LEAN_VERSION
           lean --version
           lake --version
 
-      # 3. 拉取 mathlib 依赖
-      - name: Fetch mathlib
+      # 4. 拉取mathlib依赖并构建项目
+      - name: Build Lean project
         run: |
           lake update
           lake exe cache get
+          lake build
 
-      # 4. 安装 Python 和 leanblueprint 命令行工具
+      # 5. 安装Python和leanblueprint
       - name: Set up Python & leanblueprint
         uses: actions/setup-python@v5
         with:
@@ -60,29 +57,26 @@ jobs:
       - name: Install leanblueprint
         run: pip install leanblueprint
 
-      # 5. 安装 LaTeX（生成 PDF 需要）
+      # 6. 安装LaTeX（生成PDF需要）
       - name: Install LaTeX
         run: |
           sudo apt-get update
           sudo apt-get install -y texlive-full
 
-      # 6. 构建 Lean 项目
-      - name: Build Lean project
-        run: lake build
-
-      # 7. 用 leanblueprint 命令构建蓝图
+      # ========== 关键修复：正确的蓝图构建命令 ==========
       - name: Build blueprint
         run: |
-          cd blueprint
-          leanblueprint build
+          # 直接在项目根目录运行leanblueprint，不需要cd，不需要加build！
+          leanblueprint
 
-      # 8. 准备 Pages 部署文件
+      # 7. 准备Pages部署文件
       - name: Prepare pages artifact
         run: |
           mkdir -p _site
+          # 蓝图生成的网页在 blueprint/web 文件夹里
           cp -r ./blueprint/web/* ./_site/
 
-      # 9. 上传并部署
+      # 8. 上传并部署
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
