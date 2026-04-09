@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (MiKTeX 26.2) (preloaded format=xelatex 2026.4.9)  9 APR 2026 18:32
+This is XeTeX, Version 3.141592653-2.6-0.999998 (MiKTeX 26.2) (preloaded format=xelatex 2026.4.9)  9 APR 2026 18:37
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -214,8 +214,8 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 28
 ) (blueprint.sty) (macros/common.tex
 \c@theorem=\count306
 ) (macros/web.tex)
-d:/daboussi_pnt/blueprint/src/web.tex:17: Undefined control sequence.
-l.17 \home
+d:/daboussi_pnt/blueprint/src/web.tex:12: Undefined control sequence.
+l.12 \home
           {}
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -223,8 +223,8 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-d:/daboussi_pnt/blueprint/src/web.tex:18: Undefined control sequence.
-l.18 \github
+d:/daboussi_pnt/blueprint/src/web.tex:13: Undefined control sequence.
+l.13 \github
             {}
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -232,8 +232,8 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-d:/daboussi_pnt/blueprint/src/web.tex:19: Undefined control sequence.
-l.19 \dochome
+d:/daboussi_pnt/blueprint/src/web.tex:14: Undefined control sequence.
+l.14 \dochome
              {}
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -250,132 +250,183 @@ File: l3backend-xetex.def 2025-10-09 L3 backend support: XeTeX
 No file web.aux.
 \openout1 = `web.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-Package hyperref Info: Link coloring OFF on input line 24.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+Package hyperref Info: Link coloring OFF on input line 19.
 \@outlinefile=\write3
 \openout3 = `web.out'.
 
 
 Package hyperref Warning: Rerun to get /PageLabels entry.
 
-LaTeX Font Info:    Trying to load font information for U+msa on input line 26.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 21.
 (D:\miktex\tex/latex/amsfonts\umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 26.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 21.
  (D:\miktex\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) [1
 
-] (content.tex
-
-content.tex:1: LaTeX Error: Can be used only in preamble.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.1 \documentclass
-                  {report}
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-
-content.tex:3: LaTeX Error: Can be used only in preamble.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.3 \usepackage
-               {blueprint}
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-Missing character: There is no 潘 in font [lmroman10-regular]:mapping=tex-text;!
-Missing character: There is no 广 in font [lmroman10-regular]:mapping=tex-text;!
-Missing character: There is no 轩 in font [lmroman10-regular]:mapping=tex-text;!
-
-content.tex:9: LaTeX Error: Can be used only in preamble.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.9 \begin{document}
-                    
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-[1]
+]
 No file web.toc.
 \tf@toc=\write4
 \openout4 = `web.toc'.
 
-[2
+[1
 
 ]
 Chapter 1.
 
-content.tex:26: LaTeX Error: Environment leanok undefined.
+d:/daboussi_pnt/blueprint/src/web.tex:37: LaTeX Error: Environment leanok undefined.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.26 \begin{leanok}
+l.37 \begin{leanok}
                    
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
-content.tex:27: Missing $ inserted.
+d:/daboussi_pnt/blueprint/src/web.tex:38: Missing $ inserted.
 <inserted text> 
                 $
-l.27   theorem daboussi_
+l.38   theorem daboussi_
                         pnt : ...
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
 
-content.tex:28: LaTeX Error: \begin{document} on input line 9 ended by \end{leanok}.
+d:/daboussi_pnt/blueprint/src/web.tex:39: LaTeX Error: \begin{document} ended by \end{leanok}.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.28 \end{leanok}
+l.39 \end{leanok}
                  
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
-content.tex:28: Missing $ inserted.
+d:/daboussi_pnt/blueprint/src/web.tex:39: Missing $ inserted.
 <inserted text> 
                 $
-l.28 \end{leanok}
+l.39 \end{leanok}
+                 
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+[2
+
+]
+Chapter 2.
+
+d:/daboussi_pnt/blueprint/src/web.tex:55: LaTeX Error: Environment leanok undefined.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.55 \begin{leanok}
+                   
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+d:/daboussi_pnt/blueprint/src/web.tex:56: Missing $ inserted.
+<inserted text> 
+                $
+l.56   lemma selberg_
+                     identity : ...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+d:/daboussi_pnt/blueprint/src/web.tex:57: LaTeX Error: \begin{document} ended by \end{leanok}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.57 \end{leanok}
+                 
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+d:/daboussi_pnt/blueprint/src/web.tex:57: Missing $ inserted.
+<inserted text> 
+                $
+l.57 \end{leanok}
+                 
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+
+d:/daboussi_pnt/blueprint/src/web.tex:72: LaTeX Error: Environment leanok undefined.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.72 \begin{leanok}
+                   
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+d:/daboussi_pnt/blueprint/src/web.tex:73: Missing $ inserted.
+<inserted text> 
+                $
+l.73   lemma pnt_
+                 equivalence : ...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+d:/daboussi_pnt/blueprint/src/web.tex:74: LaTeX Error: \begin{document} ended by \end{leanok}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.74 \end{leanok}
+                 
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+d:/daboussi_pnt/blueprint/src/web.tex:74: Missing $ inserted.
+<inserted text> 
+                $
+l.74 \end{leanok}
                  
 I've inserted something that you may have forgotten.
 (See the <inserted text> above.)
@@ -386,103 +437,9 @@ my insertion and my current dilemma will both disappear.
 [3
 
 ]
-Chapter 2.
-
-content.tex:44: LaTeX Error: Environment leanok undefined.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.44 \begin{leanok}
-                   
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-content.tex:45: Missing $ inserted.
-<inserted text> 
-                $
-l.45   lemma selberg_
-                     identity : ...
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
-
-
-content.tex:46: LaTeX Error: \begin{document} on input line 9 ended by \end{leanok}.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.46 \end{leanok}
-                 
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-content.tex:46: Missing $ inserted.
-<inserted text> 
-                $
-l.46 \end{leanok}
-                 
-I've inserted something that you may have forgotten.
-(See the <inserted text> above.)
-With luck, this will get me unwedged. But if you
-really didn't forget anything, try typing `2' now; then
-my insertion and my current dilemma will both disappear.
-
-
-content.tex:61: LaTeX Error: Environment leanok undefined.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.61 \begin{leanok}
-                   
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-content.tex:62: Missing $ inserted.
-<inserted text> 
-                $
-l.62   lemma pnt_
-                 equivalence : ...
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
-
-
-content.tex:63: LaTeX Error: \begin{document} on input line 9 ended by \end{leanok}.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.63 \end{leanok}
-                 
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-content.tex:63: Missing $ inserted.
-<inserted text> 
-                $
-l.63 \end{leanok}
-                 
-I've inserted something that you may have forgotten.
-(See the <inserted text> above.)
-With luck, this will get me unwedged. But if you
-really didn't forget anything, try typing `2' now; then
-my insertion and my current dilemma will both disappear.
-
-[4
-
-]
 Chapter 3.
-content.tex:71: Undefined control sequence.
-l.71   \item Prove Selberg's identity (\Cref
+d:/daboussi_pnt/blueprint/src/web.tex:82: Undefined control sequence.
+l.82   \item Prove Selberg's identity (\Cref
                                             {lem:selberg}).
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -490,8 +447,8 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-content.tex:73: Undefined control sequence.
-l.73 ... equivalence of Chebyshev functions (\Cref
+d:/daboussi_pnt/blueprint/src/web.tex:84: Undefined control sequence.
+l.84 ... equivalence of Chebyshev functions (\Cref
                                                   {lem:pnt_equivalence}).
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -499,16 +456,16 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-content.tex:73: Missing $ inserted.
+d:/daboussi_pnt/blueprint/src/web.tex:84: Missing $ inserted.
 <inserted text> 
                 $
-l.73 ...nce of Chebyshev functions (\Cref{lem:pnt_
+l.84 ...nce of Chebyshev functions (\Cref{lem:pnt_
                                                   equivalence}).
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
-content.tex:73: Extra }, or forgotten $.
-l.73 ...shev functions (\Cref{lem:pnt_equivalence}
+d:/daboussi_pnt/blueprint/src/web.tex:84: Extra }, or forgotten $.
+l.84 ...shev functions (\Cref{lem:pnt_equivalence}
                                                   ).
 I've deleted a group-closing symbol because it seems to be
 spurious, as in `$x}$'. But perhaps the } is legitimate and
@@ -517,39 +474,39 @@ the way to recover is to insert both the forgotten and the
 deleted material, e.g., by typing `I$}'.
 
 
-content.tex:74: LaTeX Error: Command \end{enumerate} invalid in math mode.
+d:/daboussi_pnt/blueprint/src/web.tex:85: LaTeX Error: Command \end{enumerate} invalid in math mode.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.74 \end{enumerate}
+l.85 \end{enumerate}
                     
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
-content.tex:74: Missing $ inserted.
+d:/daboussi_pnt/blueprint/src/web.tex:85: Missing $ inserted.
 <inserted text> 
                 $
-l.74 \end{enumerate}
+l.85 \end{enumerate}
                     
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
 
-Overfull \hbox (42.41724pt too wide) in paragraph at lines 73--74
+Overfull \hbox (42.41724pt too wide) in paragraph at lines 84--85
 []\TU/lmr/m/n/10 Conclude the PNT via the equivalence of Chebyshev functions (lem:pnt$[]\OML/cmm/m/it/10 quivalence\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 :
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 73--74
+Underfull \hbox (badness 10000) in paragraph at lines 84--85
 
  []
 
-content.tex:74: Missing } inserted.
+d:/daboussi_pnt/blueprint/src/web.tex:85: Missing } inserted.
 <inserted text> 
                 }
-l.74 \end{enumerate}
+l.85 \end{enumerate}
                     
 I've inserted something that you may have forgotten.
 (See the <inserted text> above.)
@@ -557,10 +514,10 @@ With luck, this will get me unwedged. But if you
 really didn't forget anything, try typing `2' now; then
 my insertion and my current dilemma will both disappear.
 
-content.tex:78: Undefined control sequence.
+d:/daboussi_pnt/blueprint/src/web.tex:89: Undefined control sequence.
 <argument> ...p \labelsep \itshape Proof of \Cref 
                                                   {thm:daboussi_pnt}\@addpun...
-l.78 ...n{proof}[Proof of \Cref{thm:daboussi_pnt}]
+l.89 ...n{proof}[Proof of \Cref{thm:daboussi_pnt}]
                                                   
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -568,18 +525,18 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-content.tex:78: Missing $ inserted.
+d:/daboussi_pnt/blueprint/src/web.tex:89: Missing $ inserted.
 <inserted text> 
                 $
-l.78 ...n{proof}[Proof of \Cref{thm:daboussi_pnt}]
+l.89 ...n{proof}[Proof of \Cref{thm:daboussi_pnt}]
                                                   
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
-content.tex:78: Extra }, or forgotten $.
+d:/daboussi_pnt/blueprint/src/web.tex:89: Extra }, or forgotten $.
 <argument> ...pe Proof of \Cref {thm:daboussi_pnt}
                                                   \@addpunct {.}
-l.78 ...n{proof}[Proof of \Cref{thm:daboussi_pnt}]
+l.89 ...n{proof}[Proof of \Cref{thm:daboussi_pnt}]
                                                   
 I've deleted a group-closing symbol because it seems to be
 spurious, as in `$x}$'. But perhaps the } is legitimate and
@@ -587,28 +544,28 @@ you forgot something else, as in `\hbox{$x}'. In such cases
 the way to recover is to insert both the forgotten and the
 deleted material, e.g., by typing `I$}'.
 
-content.tex:78: Improper \spacefactor.
+d:/daboussi_pnt/blueprint/src/web.tex:89: Improper \spacefactor.
 \@addpunct #1->\ifnum \spacefactor 
                                    >\@m \else #1\fi 
-l.78 ...n{proof}[Proof of \Cref{thm:daboussi_pnt}]
+l.89 ...n{proof}[Proof of \Cref{thm:daboussi_pnt}]
                                                   
 You can refer to \spacefactor only in horizontal mode;
 you can refer to \prevdepth only in vertical mode; and
 neither of these is meaningful inside \write. So
 I'm forgetting what you said and using zero instead.
 
-content.tex:78: Missing $ inserted.
+d:/daboussi_pnt/blueprint/src/web.tex:89: Missing $ inserted.
 <inserted text> 
                 $
-l.78 ...n{proof}[Proof of \Cref{thm:daboussi_pnt}]
+l.89 ...n{proof}[Proof of \Cref{thm:daboussi_pnt}]
                                                   
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
-content.tex:78: Missing } inserted.
+d:/daboussi_pnt/blueprint/src/web.tex:89: Missing } inserted.
 <inserted text> 
                 }
-l.78 ...n{proof}[Proof of \Cref{thm:daboussi_pnt}]
+l.89 ...n{proof}[Proof of \Cref{thm:daboussi_pnt}]
                                                   
 I've inserted something that you may have forgotten.
 (See the <inserted text> above.)
@@ -616,8 +573,8 @@ With luck, this will get me unwedged. But if you
 really didn't forget anything, try typing `2' now; then
 my insertion and my current dilemma will both disappear.
 
-content.tex:79: Undefined control sequence.
-l.79 ...have established Selberg's identity (\Cref
+d:/daboussi_pnt/blueprint/src/web.tex:90: Undefined control sequence.
+l.90 ...have established Selberg's identity (\Cref
                                                   {lem:selberg}).
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -626,12 +583,12 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-Overfull \hbox (28.93362pt too wide) in paragraph at lines 79--81
+Overfull \hbox (28.93362pt too wide) in paragraph at lines 90--92
 []\TU/lmr/m/n/10 Assume we have established Selberg’s identity (lem:selberg).
  []
 
-content.tex:84: Undefined control sequence.
-l.84   By \Cref
+d:/daboussi_pnt/blueprint/src/web.tex:95: Undefined control sequence.
+l.95   By \Cref
                {lem:pnt_equivalence}, this implies
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -639,16 +596,16 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-content.tex:84: Missing $ inserted.
+d:/daboussi_pnt/blueprint/src/web.tex:95: Missing $ inserted.
 <inserted text> 
                 $
-l.84   By \Cref{lem:pnt_
+l.95   By \Cref{lem:pnt_
                         equivalence}, this implies
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
-content.tex:84: Extra }, or forgotten $.
-l.84   By \Cref{lem:pnt_equivalence}
+d:/daboussi_pnt/blueprint/src/web.tex:95: Extra }, or forgotten $.
+l.95   By \Cref{lem:pnt_equivalence}
                                     , this implies
 I've deleted a group-closing symbol because it seems to be
 spurious, as in `$x}$'. But perhaps the } is legitimate and
@@ -657,22 +614,22 @@ the way to recover is to insert both the forgotten and the
 deleted material, e.g., by typing `I$}'.
 
 
-content.tex:85: LaTeX Error: Bad math environment delimiter.
+d:/daboussi_pnt/blueprint/src/web.tex:96: LaTeX Error: Bad math environment delimiter.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.85   \[
+l.96   \[
          
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
-content.tex:87: Missing \endgroup inserted.
+d:/daboussi_pnt/blueprint/src/web.tex:98: Missing \endgroup inserted.
 <inserted text> 
                 \endgroup 
-l.87   \]
+l.98   \]
          
 I've inserted something that you may have forgotten.
 (See the <inserted text> above.)
@@ -681,22 +638,22 @@ really didn't forget anything, try typing `2' now; then
 my insertion and my current dilemma will both disappear.
 
 
-content.tex:87: LaTeX Error: \begin{proof} on input line 78 ended by \end{equation*}.
+d:/daboussi_pnt/blueprint/src/web.tex:98: LaTeX Error: \begin{proof} on input line 89 ended by \end{equation*}.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.87   \]
+l.98   \]
          
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
-content.tex:87: Missing $ inserted.
+d:/daboussi_pnt/blueprint/src/web.tex:98: Missing $ inserted.
 <inserted text> 
                 $
-l.87   \]
+l.98   \]
          
 I've inserted something that you may have forgotten.
 (See the <inserted text> above.)
@@ -704,10 +661,10 @@ With luck, this will get me unwedged. But if you
 really didn't forget anything, try typing `2' now; then
 my insertion and my current dilemma will both disappear.
 
-content.tex:87: Missing } inserted.
+d:/daboussi_pnt/blueprint/src/web.tex:98: Missing } inserted.
 <inserted text> 
                 }
-l.87   \]
+l.98   \]
          
 I've inserted something that you may have forgotten.
 (See the <inserted text> above.)
@@ -716,19 +673,26 @@ really didn't forget anything, try typing `2' now; then
 my insertion and my current dilemma will both disappear.
 
 
-content.tex:89: LaTeX Error: \begin{document} on input line 9 ended by \end{proof}.
+d:/daboussi_pnt/blueprint/src/web.tex:100: LaTeX Error: \begin{document} ended by \end{proof}.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.89 \end{proof}
-                
+l.100 \end{proof}
+                 
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
-[5
+d:/daboussi_pnt/blueprint/src/web.tex:100: Extra \endgroup.
+\end  ...end#1\endcsname \@checkend {#1}\endgroup 
+                                                  \UseHook {env/#1/after}\if...
+l.100 \end{proof}
+                 
+Things are pretty mixed up, but I think the worst is over.
+
+(content.tex) [4
 
 ] (web.aux)
  ***********
@@ -747,7 +711,7 @@ Package rerunfilecheck Warning: File `web.out' has changed.
 Package rerunfilecheck Info: Checksums for `web.out':
 (rerunfilecheck)             Before: <no file>
 (rerunfilecheck)             After:  E02D5B62B0735013B8C3B1A2482BA52C;1151.
- ) ) 
+ ) 
 Here is how much of TeX's memory you used:
  8989 strings out of 402983
  132434 string characters out of 5455728
@@ -755,6 +719,6 @@ Here is how much of TeX's memory you used:
  37619 multiletter control sequences out of 15000+600000
  634513 words of font info for 78 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 72i,6n,79p,570b,386s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 72i,6n,79p,570b,356s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on web.pdf (6 pages).
+Output written on web.pdf (5 pages).

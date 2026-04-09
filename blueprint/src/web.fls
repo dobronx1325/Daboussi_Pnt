@@ -117,11 +117,6 @@ INPUT D:\miktex\tex\latex\amsfonts\umsb.fd
 INPUT D:\miktex\fonts\tfm\public\amsfonts\symbols\msbm10.tfm
 INPUT D:\miktex\fonts\tfm\public\amsfonts\symbols\msbm10.tfm
 INPUT D:\miktex\fonts\tfm\public\amsfonts\symbols\msbm7.tfm
-INPUT .\content.tex
-INPUT .\content.tex
-INPUT .\content.tex
-INPUT .\content.tex
-INPUT content.tex
 OUTPUT web.toc
 INPUT D:\miktex\fonts\tfm\public\amsfonts\cmextra\cmex7.tfm
 INPUT D:\miktex\fonts\tfm\public\amsfonts\cmextra\cmex7.tfm
@@ -131,6 +126,11 @@ INPUT D:\miktex\fonts\tfm\public\amsfonts\symbols\msam5.tfm
 INPUT D:\miktex\fonts\tfm\public\amsfonts\symbols\msbm10.tfm
 INPUT D:\miktex\fonts\tfm\public\amsfonts\symbols\msbm7.tfm
 INPUT D:\miktex\fonts\tfm\public\amsfonts\symbols\msbm5.tfm
+INPUT .\content.tex
+INPUT .\content.tex
+INPUT .\content.tex
+INPUT .\content.tex
+INPUT content.tex
 INPUT web.aux
 INPUT .\web.out
 INPUT .\web.out
