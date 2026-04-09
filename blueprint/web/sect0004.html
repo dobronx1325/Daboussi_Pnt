@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Proof of the Main Theorem</title>
+<link rel="prev" href="sect0003.html" title="Key Lemmas" />
+<link rel="up" href="sect0001.html" title="My formalization project" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+<link rel="stylesheet" href="styles/extra_styles.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="sect0001.html">My formalization project</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class=" active">
+  <a href="sect0001.html"><span class="toc_ref"></span> <span class="toc_entry">My formalization project</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class="">
+  <a href="sect0002.html"><span class="toc_ref">1</span> <span class="toc_entry">Introduction</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0002.html#a0000000006"><span class="toc_ref">1.1</span> <span class="toc_entry">The Main Theorem</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0003.html"><span class="toc_ref">2</span> <span class="toc_entry">Key Lemmas</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0003.html#a0000000008"><span class="toc_ref">2.1</span> <span class="toc_entry">Selberg’s Identity</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html#a0000000009"><span class="toc_ref">2.2</span> <span class="toc_entry">The Chebyshev Functions</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class=" active current">
+  <a href="sect0004.html"><span class="toc_ref">3</span> <span class="toc_entry">Proof of the Main Theorem</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-2 active">
+     <li class="">
+  <a href="sect0004.html#a0000000010"><span class="toc_ref">3.1</span> <span class="toc_entry">High-Level Strategy</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html#a0000000011"><span class="toc_ref">3.2</span> <span class="toc_entry">From Selberg to PNT</span></a>
+ </li>
+
+  </ul>
+ </li>
+
+  </ul>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="a0000000005">3 Proof of the Main Theorem</h1>
+<h1 id="a0000000010">3.1 High-Level Strategy</h1>
+<p>The proof proceeds in the following steps: </p>
+<ol class="enumerate">
+  <li><p>Prove Selberg’s identity (??lem:selberg). </p>
+</li>
+  <li><p>Use the identity to show that \(\psi (x) = x + o(x)\). </p>
+</li>
+  <li><p>Conclude the PNT via the equivalence of Chebyshev functions (??lem:pnt_equivalence). </p>
+</li>
+</ol>
+<h1 id="a0000000011">3.2 From Selberg to PNT</h1>
+<div class="proof_wrapper" id="a0000000013">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof of ??thm:daboussi_pnt
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Assume we have established Selberg’s identity (??lem:selberg). We then perform a delicate analysis of the error terms to show that </p>
+<div class="displaymath" id="a0000000014">
+  \[  \psi (x) = x + o(x).  \]
+</div>
+<p> By ??lem:pnt_equivalence, this implies </p>
+<div class="displaymath" id="a0000000015">
+  \[  \pi (x) \sim \frac{x}{\log x},  \]
+</div>
+<p> which is the desired result. </p>
+
+  </div>
+</div>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="sect0003.html" title="Key Lemmas"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="sect0001.html" title="My formalization project"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>
