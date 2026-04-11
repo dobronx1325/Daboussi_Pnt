@@ -22,8 +22,8 @@ jobs:
 
       - name: Build blueprint
         run: |
-          leanblueprint web
-          leanblueprint pdf
+          leanblueprint web --tex print.tex
+
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
