@@ -11,15 +11,21 @@ namespace Daboussi_pnt.Basic
 
 --def NonnegRealsGe1 : Type := {x : ℝ // 1 ≤ x}
 --instance : Coe NonnegRealsGe1 ℝ where coe x := x.val
-noncomputable def summatory (f : ℕ → ℝ) (x : Real) : ℝ := (Finset.Ioc 0 ((⌊x⌋₊))).sum (fun n => (f n : ℝ))
-
+--noncomputable def summatory (f : ℕ → ℝ) (x : Real) : ℝ := (Finset.Ioc 0 ((⌊x⌋₊))).sum (fun n => (f n : ℝ))
+--我认为定义出来一个前n项和是有必要的，因为这会让式子简洁很多，虽然我们也可以直接在式子里写成sum的形式，但是这样会让式子变得非常冗长。
 --noncomputable def G (g : ℕ → ℝ) (x : NonnegRealsGe1) : ℝ := (Finset.Icc 1 ((⌊x.val⌋₊))).sum (fun n => (g n : ℝ))
+--lemma dirichlet_hyperbola_method {f g : Nat → ℝ} {x y : ℝ } {F G : ℝ → ℝ}(hy:  1 ≤ y ∧ y ≤ x):
+--(F = fun x : Real => summatory f x) ∧  (G = fun x : Real => summatory g x) →
+-- summatory ( LSeries.convolution f  g) x = (Finset.Ioc 0 ((⌊y⌋₊))).sum (fun n =>  g n * F (x/n)) +
+-- (Finset.Ioc 0 ((⌊x/y⌋₊))).sum (fun m => f m * G (x/m))- F (x/y) * G y:= by
+-- sorry
+--若后面这可以行得通，就会将后面的求和换成前面的形式，现在为了稳定期间，先按照原始的模式去定义
 lemma dirichlet_hyperbola_method {f g : Nat → ℝ} {x y : ℝ } {F G : ℝ → ℝ}(hy:  1 ≤ y ∧ y ≤ x):
-(F = fun x : Real => summatory f x) ∧  (G = fun x : Real => summatory g x) →
- summatory ( LSeries.convolution f  g) x = (Finset.Ioc 0 ((⌊y⌋₊))).sum (fun n =>  g n * F (x/n)) +
- (Finset.Ioc 0 ((⌊x/y⌋₊))).sum (fun m => f m * G (x/m))- F (x/y) * G y:= by
+ (Finset.Ioc 0 ((⌊x⌋₊))).sum (fun n => (( LSeries.convolution f  g) n : ℝ))  =
+ (Finset.Ioc 0 ((⌊y⌋₊))).sum (fun n =>  g n * (Finset.Ioc 0 ((⌊x/n⌋₊))).sum (fun n => (f n : ℝ))) +
+ (Finset.Ioc 0 ((⌊x/y⌋₊))).sum (fun m => f m * (Finset.Ioc 0 ((⌊x/m⌋₊))).sum (fun n => (g n : ℝ)))-
+ (Finset.Ioc 0 ((⌊x/y⌋₊))).sum (fun n => (f n : ℝ)) *(Finset.Ioc 0 ((⌊y⌋₊))).sum (fun n => (g n : ℝ)):= by
  sorry
-
 -- 手动给子类型定义 大小比较（修复 Preorder 报错）
 --instance : Preorder NonnegRealsGe1 where
 --  le x y := x.val ≤ y.val    -- 子类型≤ = 底层实数≤
@@ -45,11 +51,22 @@ lemma dirichlet_hyperbola_method {f g : Nat → ℝ} {x y : ℝ } {F G : ℝ →
 
 -- 2. 常数函数1：恒为1的算术函数（记为1）
 --noncomputable def oneArith : ArithmeticFunction ℝ := 1    这就是zeta函数--def ArithmeticFunction.zeta
-
-noncomputable def M (x : Real) : ℝ := (Finset.Ioc 0 ((⌊x⌋₊))).sum (fun n => (ArithmeticFunction.moebius n : ℝ))
+-- 3. 卷积单位元ArithmeticFunction.one：满足 f * one = f 的算术函数（记为1）
+-- 4. 对莫比乌斯函数的值域进行类型提升，使其成为实数值函数（记为moebiusReal）
+--noncomputable def M (x : Real) : ℝ := (Finset.Ioc 0 ((⌊x⌋₊))).sum (fun n => (ArithmeticFunction.moebius n : ℝ))
+--def moebiusReal : ArithmeticFunction ℝ := ArithmeticFunction.moebius (Int.cast : ℤ → ℝ)
+--def moebiusReal : ℕ → ℝ := fun n => (Nat.moebius n : ℝ)
+--def moebiusRealArith : ArithmeticFunction ℝ :=
+--  (ArithmeticFunction.moebius : ArithmeticFunction ℤ).map (algebraMap ℤ ℝ)     -- 或直接用 (fun (x : ℤ) => (x : ℝ))
+--    (by simp)            -- 证明 (0 : ℤ) 被映射到 (0 : ℝ)
+--def moebiusRealArith' : ArithmeticFunction ℝ :=
+--  ⟨fun n => (ArithmeticFunction.moebius n : ℝ), by simp⟩
 theorem daboussi_implication :
-  (fun x : Real => M x) =O[Filter.atTop] (fun x :  Real => (x : ℝ)) →
+  (fun x : Real => (Finset.Ioc 0 ((⌊x⌋₊))).sum (fun n => (ArithmeticFunction.moebius n : ℝ))) =O[Filter.atTop] (fun x :  Real => (x : ℝ)) →
   (fun x : Real => Chebyshev.psi x) =o[Filter.atTop] (fun x : Real => (x : ℝ)):= by
+ let moebiusRealArith' : ArithmeticFunction ℝ :=
+  ⟨fun n => (ArithmeticFunction.moebius n : ℝ), by simp⟩
+
  intro hM
 
 
