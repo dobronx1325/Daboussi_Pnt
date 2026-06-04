@@ -24,7 +24,7 @@ import Mathlib.Data.Int.Cast.Lemmas
 import  Mathlib.NumberTheory.Harmonic.Defs
 import Mathlib.NumberTheory.Harmonic.EulerMascheroni
 import Mathlib.NumberTheory.AbelSummation
-
+import Lean.Elab.Tactic
 namespace Daboussi_pnt.Basic
 -- 双曲方法核心引理（形式化版本）
 
@@ -60,18 +60,57 @@ open Finset Nat
 open scoped ArithmeticFunction.zeta
 open scoped sigma
 open Filter
+open Lean
+def ArithmeticFunction.liftToReal {R : Type*} [Zero R] [CoeTC R ℝ] (f : ArithmeticFunction R) : ℕ → ℝ :=
+  fun n => (f n : ℝ)
+#check ArithmeticFunction.liftToReal (ζ)
+--  Lean.Elab.Tactic.withMainContext do
+elab "ArithmeticFunction_lift_ℝ"  t:term : term => do
+    let tExpr ← Lean.Elab.Term.elabTerm t none
+    let tExprType ← Lean.Meta.inferType tExpr
+    let ptm ← Lean.Meta.whnf tExprType
+    let R ← match ptm with
+     | .app (.app (.app (.app _ _) r) _) _ => pure r
+     | _ => throwError "not ZeroHom"
+    let fn ← Lean.Meta.mkAppM ``ZeroHom.toFun #[tExpr]  --拿到了纯函数
+    let realExpr : Expr := Expr.const ``Real []
+    let algfun ← Lean.Meta.mkAppOptM ``Algebra.cast #[R, realExpr , none , none , none]
+--    let algMap ← Lean.Meta.mkAppOptM ``algebraMap #[R, realExpr , none , none , none]
+--    let algMaptype ← Lean.Meta.inferType algMap
+--    let algMapfun ←  Lean.Meta.mkAppM ``FunLike.co #[algMap]
+    let result ← Lean.Meta.mkAppM ``Function.comp #[algfun, fn]
+    return result
+--对于编写term，目的一定要明确，要是想进行类型提升就玩类型，运用infertype等工具，如何各种类型映射工具进行匹配
+--要是我想对具体的内容（具体表达式）的性质直接作用于expr上就可以，expr身份是统一的语法树类型
+--既可以表示值表达式也可以表示类型表达式，t去糖后就是值表达式，在这里是一个具体的结构体（结构体中镶嵌着具体的映射规则），但是这个结构体的类型是类型表达式
+--Lean.Meta.mkAppM是专门作用于值表达式的函数。怎么区分值表达式和类型表达式？？？
+elab "ArithmeticFunction_lift_ℝ"  t:term : term => do
+    let tExpr ← Lean.Elab.Term.elabTerm t none
+    let tExprType ← Lean.Meta.inferType tExpr
+    let ptm ← Lean.Meta.whnf tExprType
+    let R ← match ptm with
+     | .app (.app (.app (.app _ _) r) _) _ => pure r
+     | _ => throwError "not ZeroHom"
+    let fn ← Lean.Meta.mkAppM ``ZeroHom.toFun #[tExpr]  --拿到了纯函数
+    let realExpr : Expr := Expr.const ``Real []
+    let mapZeroProof ← Lean.Meta.mkAppM ``ZeroHom.map_zero #[tExpr]  -- fn 0 = 0 的证明
+    let algfun ← Lean.Meta.mkAppOptM ``Algebra.cast #[R, realExpr , none , none , none]
+--我要在这再次声明这是保0的，即用哪一个函数可以直接构建一个保0同态
+    let gn ← Lean.Meta.mkAppM ``Function.comp #[algfun, fn]
+ --   let gn_zero ← Lean.Meta.mkAppM ``
+    let step1 ← Lean.Meta.mkAppM ``congrArg #[algfun, mapZeroProof]
+--在这里我要说明，结合step1还有algfun是保0的，进而得到，整一个函数gn也是保0的，进而进行组合
+    -- step1 : Algebra.cast (fn 0) = Algebra.cast 0
+    let algHom ← Lean.Meta.mkAppOptM ``algebraMap #[R, realExpr, none, none]
 
-syntax "simp_sum_zero" : tactic
+--理解：
+#check ArithmeticFunction_lift_ℝ' ζ
+#check ZeroHom
+--elab "Arithℕ→ℝ" t:term : term => do
+--  let e ← Elab.Term.elabTerm t (some (mkApp (mkConst ``ArithmeticFunction [levelZero]) (mkConst ``Nat)))
+  -- ↑(e.map (algebraMap ℕ ℝ))  得到裸函数 ℕ → ℝ
+--  Lean.Meta.mkAppM ``FunLike.coe #[← Lean.Meta.mkAppM ``ArithmeticFunction.map #[e, mkConst ``algebraMap]]
 
-macro_rules
-| `(tactic| simp_sum_zero) =>
-  `(tactic|
-    repeat (
-      simp (config := { singlePass := true }) only [Finset.sum_const_zero]
-
-
-    )
-  )
 --lemma _root_.Fintype.sum_mul_sum_rel [Semiring R] [Finset ι] [Finset κ] (f : ι → R) (g : κ → R) :
 --    ∑ i, (f i * ∑ j, g j) = ∑ i, ∑ j, f i * g j := Finset.sum_congr rfl (by simp [Finset.mul_sum])
 
@@ -154,10 +193,19 @@ lemma harmonic_sum_abel : (fun (x : ℝ) => (harmonic ⌊x⌋₊ : ℝ) - Real.l
       _ ≤ 2 * (1 / x) := h_one_div_n_le_two_div_x
       _ = 2 * |1 / x| := by rw [abs_of_pos (by positivity : 0 < 1 / x)]
   simpa [hn_def] using h_calc
-lemma dirichlet_hyperbola_method {f g : Nat → ℝ} {x y : ℝ } (hy:  1 ≤ y ∧ y ≤ x):
+--双曲定理的形式可不可以改成纯算术函数的形式，然后用我的那个技术把他扩展带一般函数的形式？还有没有更根本的形式（就是更加基础的双曲定理形式，就像豆包上面出现的一样）
+--算术函数的乘法是怎么定义的来着？想一下怎么把搞得这些内容与用元编程搞的语法进行结合
+lemma dirichlet_hyperbola_method [Ring R] {f g : ArithmeticFunction R} {x y : ℝ } (hy:  1 ≤ y ∧ y ≤ x):
+    ∑ n ∈ Ioc 0 ⌊x⌋₊, (f * g) n   =
+    (∑ n ∈ Ioc 0 ⌊y⌋₊,  f n * ∑ m ∈ Ioc 0 (⌊x / n⌋₊),  g m ) +
+    (∑ m ∈ Ioc 0 ⌊x/y⌋₊,  g m * ∑ n ∈ Ioc 0 (⌊x / m⌋₊),  f n ) -
+    (∑ n ∈ Ioc 0 ⌊x/y⌋₊, g n ) * (∑ n ∈ Ioc 0 ⌊y⌋₊, f n ) := by sorry
+
+
+lemma dirichlet_hyperbola_method_ℝ  {f g : Nat → ℝ} {x y : ℝ } (hy:  1 ≤ y ∧ y ≤ x):
     ∑ n ∈ Ioc 0 ⌊x⌋₊, ((LSeries.convolution f  g) n : ℝ)  =
-    (∑ n ∈ Ioc 0 ⌊y⌋₊, toArithmeticFunction f n * ∑ m ∈ Ioc 0 (⌊x⌋₊ / n), (toArithmeticFunction g m : ℝ)) +
-    (∑ m ∈ Ioc 0 ⌊x/y⌋₊, toArithmeticFunction g m * ∑ n ∈ Ioc 0 (⌊x⌋₊ / m), (toArithmeticFunction f n : ℝ)) -
+    (∑ n ∈ Ioc 0 ⌊y⌋₊, toArithmeticFunction f n * ∑ m ∈ Ioc 0 (⌊x ⌋₊/ n), (toArithmeticFunction g m : ℝ)) +
+    (∑ m ∈ Ioc 0 ⌊x/y⌋₊, toArithmeticFunction g m * ∑ n ∈ Ioc 0 (⌊x ⌋₊/ m), (toArithmeticFunction f n : ℝ)) -
     (∑ n ∈ Ioc 0 ⌊x/y⌋₊, (toArithmeticFunction g n : ℝ)) * (∑ n ∈ Ioc 0 ⌊y⌋₊, (toArithmeticFunction f n : ℝ)) := by
   --证明策略：首先通过卷积定义将左边的求和展开成双层求和的形式，然后利用迪利克雷卷积换序，改变求和方式，然后通过分割求和区间，将双层求和转化成两部分求和的形式，
   --第一部分与右侧的第一部分相等，第二部分通过换序，能化成右侧部分的形式，然后把中间区间写成两区间的差值就完成（这里我们是把右侧大的区间化成了小区间和中间区间，相减做的）。
@@ -462,21 +510,10 @@ lemma dirichlet_hyperbola_method' {f g : Nat → ℝ} {x y : ℝ } (hy:  1 ≤ y
             gcongr; exact mod_cast h_n1_le_nat
           _ = ((n / i : ℕ) : ℝ) + 1 := by field_simp [hi_pos_r.ne']; push_cast; ring
   simpa [h1] using dirichlet_hyperbola_method hy0
-lemma dirichlet_hyperbola_method'' [Semiring R][PartialOrder R] [FloorSemiring R] {f g : Nat → R} {x y : R } (hy:  1 ≤ y ∧ y ≤ x):
-    ∑ n ∈ Ioc 0 ⌊x⌋₊, ((LSeries.convolution f  g) n : R)  =
-    (∑ n ∈ Ioc 0 ⌊y⌋₊, toArithmeticFunction f n * ∑ m ∈ Ioc 0 (⌊x / n⌋₊), (toArithmeticFunction g m : R)) +
-    (∑ m ∈ Ioc 0 ⌊x/y⌋₊, toArithmeticFunction g m * ∑ n ∈ Ioc 0 (⌊x / m⌋₊), (toArithmeticFunction f n : R)) -
-    (∑ n ∈ Ioc 0 ⌊x/y⌋₊, (toArithmeticFunction g n : R)) * (∑ n ∈ Ioc 0 ⌊y⌋₊, (toArithmeticFunction f n : R)) := by sorry
-lemma dirichlet_hyperbola_method''' {f g : Nat → Nat} {x y : Real } (hy:  1 ≤ y ∧ y ≤ x):
-    ∑ n ∈ Ioc 0 ⌊x⌋₊, ((LSeries.convolution f  g) n : Nat)  =
-    (∑ n ∈ Ioc 0 ⌊y⌋₊, toArithmeticFunction f n * ∑ m ∈ Ioc 0 (⌊x / n⌋₊), (toArithmeticFunction g m : Nat)) +
-    (∑ m ∈ Ioc 0 ⌊x/y⌋₊, toArithmeticFunction g m * ∑ n ∈ Ioc 0 (⌊x / m⌋₊), (toArithmeticFunction f n : Nat)) -
-    (∑ n ∈ Ioc 0 ⌊x/y⌋₊, (toArithmeticFunction g n : Nat)) * (∑ n ∈ Ioc 0 ⌊y⌋₊, (toArithmeticFunction f n : Nat)) := by sorry
-lemma dirichlet_hyperbola_method'''' {f g : ArithmeticFunction ℕ } {x y : Real } (hy:  1 ≤ y ∧ y ≤ x):
-    ∑ n ∈ Ioc 0 ⌊x⌋₊, (( f * g) n : Nat)  =
-    (∑ n ∈ Ioc 0 ⌊y⌋₊,  f n * ∑ m ∈ Ioc 0 (⌊x / n⌋₊), ( g m : Nat)) +
-    (∑ m ∈ Ioc 0 ⌊x/y⌋₊,  g m * ∑ n ∈ Ioc 0 (⌊x / m⌋₊), ( f n : Nat)) -
-    (∑ n ∈ Ioc 0 ⌊x/y⌋₊, ( g n : Nat)) * (∑ n ∈ Ioc 0 ⌊y⌋₊, ( f n : Nat)) := by sorry
+
+#check map
+#check ZeroHom
+
 lemma sigma_sum_estimate (x : Real) : (fun x => ∑ n ∈ Ioc 0 ⌊x⌋₊, (σ 0 n) -x*(Real.log x + 2*γ -1)) =O[Filter.atTop] (fun x : Real => Real.sqrt x) := by
 have h1 :ζ * ζ = σ  0 := by
  rw[← zeta_mul_pow_eq_sigma , pow_zero_eq_zeta]
@@ -484,27 +521,23 @@ rw[← h1]
 rw [Asymptotics.isBigO_iff']
 refine ⟨5, by norm_num, ?_⟩
 filter_upwards  [eventually_ge_atTop 2] with x hx
-have h2 : ∑ n ∈ Ioc 0 ⌊x⌋₊, (ζ * ζ) n - x*(Real.log x + 2*γ -1) = (-2)*∑ n ∈ Ioc 0 ⌊Real.sqrt x⌋₊, Int.fract (x / n) - (Int.fract (Real.sqrt x))^ 2 + 2*(Int.fract (Real.sqrt x))*Real.sqrt x := by
- have h21 : 1 ≤ Real.sqrt x ∧ Real.sqrt x ≤ x := by
-  sorry
---先把自然数情况的先声明出来，然后用这个去证明，分下去往后推进，然后搞出来证明R的情况，一定要搞清楚依赖类型关系，这里边挺复杂，并且把学习一下策略，做一些策略
- have h22 : (ζ * ζ )  = LSeries.convolution ζ ζ := by
-  sorry
- --我发现了一个双事情，原本的这个双曲定理要想去使用，必须搭配算术函数的乘法后的函数在某一点的取值等于LSeries.convolution f  g在某一点的取值，然后再用如果被求和项相同，那么求和一样
- have h23 : ∑ n ∈ Ioc 0 ⌊x⌋₊, (ζ * ζ) n = ∑ n ∈ Ioc 0 ⌊x⌋₊, (LSeries.convolution ζ ζ) n := by
-  sorry
+have h21 : 1 ≤ Real.sqrt x ∧ Real.sqrt x ≤ x := by
+  have hx_nonneg : 0 ≤ x := by linarith
+  have h_sqrt_ge_one : 1 ≤ Real.sqrt x := by
+     calc
+       1 = Real.sqrt 1 := by norm_num
+       _ ≤ Real.sqrt x := Real.sqrt_le_sqrt (by linarith)
+  have h_sqrt_le_x : Real.sqrt x ≤ x := by
+     calc
+       Real.sqrt x ≤ Real.sqrt x * Real.sqrt x := by
+         nlinarith
+       _ = x := by rw [Real.mul_self_sqrt hx_nonneg]
+  exact And.intro h_sqrt_ge_one h_sqrt_le_x
+have h2 : ∑ n ∈ Ioc 0 ⌊x⌋₊, (ζ * ζ) n  = x*(Real.log x + 2*γ -1)+
+(-2)*∑ n ∈ Ioc 0 ⌊Real.sqrt x⌋₊, Int.fract (x / n) - (Int.fract (Real.sqrt x))^ 2 + 2*(Int.fract (Real.sqrt x))*Real.sqrt x := by
+ --push_cast  --两种方法，直接求变态的zeta函数卷积表示结果，但着不好。或者说明，这种求和与相应的变态函数的求和是一样的
+ rw[ dirichlet_hyperbola_method h21]
 
-
- rw[dirichlet_hyperbola_method'''' h21]
- have h24 : ∑ n ∈ Ioc 0 ⌊√x⌋₊, (ζ n * ↑(∑ m ∈ Ioc 0 ⌊x / ↑n⌋₊, ζ m))  = (∑ n ∈ Ioc 0 ⌊√x⌋₊,⌊x / n⌋):= by
-  sorry
- have h25 :(∑ m ∈ Ioc 0 ⌊x / √x⌋₊, ζ m * ∑ n ∈ Ioc 0 ⌊x / ↑m⌋₊, ζ n : ℝ ) = (∑ m ∈ Ioc 0 ⌊√x⌋₊,⌊x / m⌋) := by
-  sorry
- have h26 : ↑(∑ n ∈ Ioc 0 ⌊√x⌋₊, ζ n * ∑ m ∈ Ioc 0 ⌊x / ↑n⌋₊, ζ m + ∑ m ∈ Ioc 0 ⌊x / √x⌋₊, ζ m * ∑ n ∈ Ioc 0 ⌊x / ↑m⌋₊, ζ n
- -
-        (∑ n ∈ Ioc 0 ⌊x / √x⌋₊, ζ n) * ∑ n ∈ Ioc 0 ⌊√x⌋₊, ζ n) = (∑ n ∈ Ioc 0 ⌊√x⌋₊,⌊x / n⌋) + (∑ m ∈ Ioc 0 ⌊√x⌋₊,⌊x / m⌋) - (∑ n ∈ Ioc 0 ⌊x / √x⌋₊, ζ n) * ∑ n ∈ Ioc 0 ⌊√x⌋₊, ζ n := by sorry
- rw[h26]
- rw [h24, h25]
 
 
 
